@@ -23,8 +23,10 @@ from sklearn.metrics import (classification_report,                    # Model e
                              ConfusionMatrixDisplay,
                              mean_absolute_error)
 
-# --- Import clusters to be used ---
-
+# --- Import clustering algorithms for unsupervised learning ---
+from sklearn.cluster import KMeans          # K-means clustering: partition data into K clusters based on feature similarity
+from sklearn.cluster import DBSCAN          # DBSCAN: density-based clustering, useful for irregular cluster shapes and outlier detection
+from sklearn.mixture import GaussianMixture # Gaussian Mixture Model: probabilistic clustering using multivariate normal distributions
 
 # --- Load training and test datasets ---
 # Assumes 'train.csv' and 'test.csv' are present in the root directory (same as this script)
