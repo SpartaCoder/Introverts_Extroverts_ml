@@ -42,7 +42,7 @@ plt.tight_layout()
 plt.show()
 
 # --- Visualize correlations with Personality as a horizontal bar chart ---
-plt.figure(figsize=(4, len(corr_with_attrition) * 0.4))
+plt.figure(figsize=(4, len(corr_with_personality) * 0.4))
 plt.barh(corr_with_personality.index, corr_with_personality.values)
 plt.title('Feature Correlation with Personality')
 plt.xlabel('Correlation Coefficient')
