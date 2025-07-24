@@ -127,4 +127,4 @@ model_metrics_df = pd.concat(
 # --- Predict Personality on the Test DataFrame from Cell 1 and Store Results ---
 # Ensure 'test' has the same features/columns as X_train (may require preprocessing)
 KMeansOutput = test.copy()
-KMeansOutput['Personality_Prediction'] = logreg.predict(test[X_train.columns])
+KMeansOutput['Personality_Prediction'] = kmeans.predict(test[X_train.columns])
