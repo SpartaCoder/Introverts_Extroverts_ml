@@ -42,7 +42,7 @@ for df in [train, test]:
             le = LabelEncoder()
             # Fit on non-null values, transform only non-null, leave nulls untouched
             non_null = df[col].notnull()
-            df.loc[non_null, col] = le.fit_transform(df.loc[non_null, col])
+            df[col] = df[col].where(~non_null, le.fit_transform(df.loc[non_null, col]))
             # The column will now be integer where originally string, nulls remain as NaN
 
 
