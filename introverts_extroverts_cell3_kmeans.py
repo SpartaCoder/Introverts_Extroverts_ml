@@ -16,12 +16,14 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# --- Initialize and train the kmeans clustering model ---
-# max_iter is raised to 3000 to avoid convergence warnings on difficult data.
+# --- Initialize kmeans clustering model ---
+kmeans = KMeans(n_clusters=2, random_state=42, max_iter=3000)
 
+# Train (fit) the model on the training data
+kmeans.fit(X_train)
 
 # --- Make predictions on the test set ---
-
+y_pred = kmeans.predict(X_test)
 
 # --- Print accuracy and detailed classification report ---
 print("KMeans Clustering Test Accuracy:", accuracy_score(y_test, y_pred))
