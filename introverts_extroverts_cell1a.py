@@ -1,6 +1,35 @@
 # ================================================
 # Cell 1a: Null Value Check, Imputation, and Visualization
 # ================================================
+def encode_string_columns(df, df_name="DataFrame"):
+    """
+    Encodes string columns by mapping unique string values to integers (sorted alphabetically).
+    Leaves null values unchanged.
+    Prints a summary of mappings for each string column.
+    Returns a new DataFrame with encoded values.
+    """
+    df_encoded = df.copy()
+    print(f"\nString Column Encoding Summary for {df_name}:")
+    for col in df.columns:
+        if df[col].dtype == object or pd.api.types.is_string_dtype(df[col]):
+            unique_vals = sorted([v for v in df[col].dropna().unique()])
+            mapping = {val: idx + 1 for idx, val in enumerate(unique_vals)}  # Start at 1
+            # Output summary of mappings
+            print(f"\nColumn: '{col}'")
+            for val, idx in mapping.items():
+                print(f"  '{val}': {idx}")
+            # Replace string values with their integer code, leave nulls as is
+            df_encoded[col] = df[col].map(mapping)
+    return df_encoded
+
+# --- Apply the encoding to your dataframes ---
+train_encoded = encode_string_columns(train, df_name="train")
+test_encoded = encode_string_columns(test, df_name="test")
+
+# --- Proceed with your existing null imputation code ---
+nulls_imputation_summary(train_encoded, df_name="train (encoded)")
+nulls_imputation_summary(test_encoded, df_name="test (encoded)")
+
 # This function checks a DataFrame for null values,
 # imputes missing values (mean for numerics, mode for categoricals),
 # and generates a summary table describing the imputation.
