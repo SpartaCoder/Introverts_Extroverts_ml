@@ -51,3 +51,9 @@ for df in [train, test]:
 
 # Renumber the index to start at 1 for the test data frame
 test.index = range(1, len(test) + 1)
+
+# --- Summarize each column in the train DataFrame ---
+# This provides statistics such as count, mean, std, min, max, and quartiles for numerical columns,
+# and count, unique, top, and frequency for object columns.
+print("Summary statistics for each column in the test DataFrame:")
+print(train.describe(include='all'))  # Include all columns, not just numeric ones
