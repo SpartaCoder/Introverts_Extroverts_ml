@@ -33,6 +33,19 @@ from sklearn.mixture import GaussianMixture # Gaussian Mixture Model: probabilis
 train = pd.read_csv('train.csv')    # Training data
 test = pd.read_csv('test.csv')      # Test data
 
+# --- Convert string columns to integer values in both train and test datasets ---
+# This step scans for columns with object (string) data types and applies Label Encoding to them.
+# Null values are left unchanged.
+for df in [train, test]:
+    for col in df.select_dtypes(include=['object']).columns:
+        if df[col].notnull().any():  # Only encode if at least one non-null value exists
+            le = LabelEncoder()
+            # Fit on non-null values, transform only non-null, leave nulls untouched
+            non_null = df[col].notnull()
+            df.loc[non_null, col] = le.fit_transform(df.loc[non_null, col])
+            # The column will now be integer where originally string, nulls remain as NaN
+
+
 # The datasets are now loaded as pandas DataFrames: `train` and `test`
 # Further data exploration and preprocessing will follow in subsequent cells.
 
