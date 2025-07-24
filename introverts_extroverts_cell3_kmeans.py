@@ -7,8 +7,8 @@
 # ================================================
 # --- Prepare features (X) and target (y) ---
 # The model uses the 'train_unbalanced' DataFrame with relevant features and the target column 'Personality'.
-X = train_unbalanced.drop('Prediction', axis=1)
-y = train_unbalanced['Prediction']
+X = train_unbalanced.drop('Personality', axis=1)
+y = train_unbalanced['Personality']
 
 # --- Split the data into training and test sets (80% train, 20% test) ---
 # Stratify ensures the class distribution is similar in both sets.
