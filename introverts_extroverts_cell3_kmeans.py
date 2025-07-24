@@ -26,8 +26,17 @@ kmeans.fit(X_train)
 y_pred = kmeans.predict(X_test)
 
 # --- Print accuracy and detailed classification report ---
-print("KMeans Clustering Test Accuracy:", accuracy_score(y_test, y_pred))
-print("Cluster Report:\n", classification_report(y_test, y_pred))
+from scipy.stats import mode
+
+# Align cluster labels to actual class labels
+labels = np.zeros_like(y_pred)
+for i in range(2):
+    mask = (y_pred == i)
+    if np.any(mask):
+        labels[mask] = mode(y_test[mask])[0]
+
+print("KMeans Clustering Test Accuracy:", accuracy_score(y_test, labels))
+print("Cluster Report:\n", classification_report(y_test, labels))
 
 # Calculate the confusion matrix
 cm = confusion_matrix(y_test, y_pred)
