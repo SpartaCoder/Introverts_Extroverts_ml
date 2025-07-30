@@ -6,9 +6,9 @@
 #   - Store results for comparison with other models
 # ================================================
 # --- Prepare features (X) and target (y) ---
-# The model uses the 'train_unbalanced' DataFrame with relevant features and the target column 'Personality'.
-X = train_unbalanced.drop('Personality', axis=1)
-y = train_unbalanced['Personality']
+# The model uses the 'train_balanced' DataFrame with relevant features and the target column 'Personality'.
+X = train_balanced.drop('Personality', axis=1)
+y = train_balanced['Personality']
 
 # --- Split the data into training and test sets (80% train, 20% test) ---
 # Stratify ensures the class distribution is similar in both sets.
@@ -68,8 +68,9 @@ kf = KFold(n_splits=10, shuffle=True, random_state=42)
 accuracies = []
 
 for train_index, test_index in kf.split(X):
-    X_train, X_test = X[train_index], X[test_index]
-    y_train, y_test = y[train_index], y[test_index]
+    X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
     
     kmeans = KMeans(n_clusters=2, random_state=42)
     kmeans.fit(X_train)
@@ -92,11 +93,21 @@ for i, acc in enumerate(accuracies, 1):
 
 print(f"Mean Accuracy: {np.mean(accuracies):.2f}")
 
+print(y_test)
+print(y_pred)
+
+import collections
+print(collections.Counter(y_pred))  # Counts label frequencies
+
 # --- Encode the labels for error calculation ---
 # LabelEncoder ensures string labels are converted to integers for MAE calculation.
+# Assume cluster 0 = "Introvert", cluster 1 = "Extrovert"
+cluster_to_label = {1: "Introvert", 0: "Extrovert"}
+y_pred_mapped = [cluster_to_label[label] for label in y_pred]
+
 le = LabelEncoder()
 y_test_num = le.fit_transform(y_test)
-y_pred_num = le.transform(y_pred)  # Use transform to match the same mapping
+y_pred_num = le.transform(y_pred_mapped)  # Use transform to match the same mapping
 
 # --- Calculate and print Root Mean Absolute Error (RMAE) ---
 mae = mean_absolute_error(y_test_num, y_pred_num)
