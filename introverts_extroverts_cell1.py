@@ -15,13 +15,21 @@ os.environ['KAGGLE_KEY'] = 'kaggle_key'
 
 
 # --- Import scikit-learn utilities for ML workflow ---
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split, cross_val_score  # Data splitting & model validation
+from sklearn.preprocessing import LabelEncoder, StandardScaler, OneHotEncoder
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold  # Data splitting & model validation
 from sklearn.metrics import (classification_report,                    # Model evaluation tools
                              accuracy_score,
+                             precision_score,
+                             recall_score,
+                             f1_score,
                              confusion_matrix,
                              ConfusionMatrixDisplay,
                              mean_absolute_error)
+from sklearn.svm import SVC
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
+from sklearn.feature_selection import SelectKBest, f_classif                             
 
 # --- Import clustering algorithms for unsupervised learning ---
 from sklearn.cluster import KMeans          # K-means clustering: partition data into K clusters based on feature similarity
